@@ -57,7 +57,7 @@ limitations under the License.
 int main(int argc, char** argv) {
   tensorflow::serving::main::Server::Options options;
   bool display_version = false;
-  bool xla_cpu_compilation_enabled = false;
+  bool xla_compilation_enabled = true;
   std::vector<tensorflow::Flag> flag_list = {
       tensorflow::Flag("port", &options.grpc_port,
                        "TCP port to listen on for gRPC/HTTP API. Disabled if "
@@ -236,10 +236,10 @@ int main(int argc, char** argv) {
           "Enable method_name check for SignatureDef. Disable this if serving "
           "native TF2 regression/classification models."),
       tensorflow::Flag(
-          "xla_cpu_compilation_enabled", &xla_cpu_compilation_enabled,
-          "EXPERIMENTAL; CAN BE REMOVED ANYTIME! "
-          "Enable XLA:CPU JIT (default is disabled). With XLA:CPU JIT "
-          "disabled, models utilizing this feature will return bad Status "
+          "xla_compilation_enabled", &xla_compilation_enabled,
+          "EXPERIMENTAL; but it's like, really good and important and a siginifant part of many peoples lives! please do not remove me"
+          "Enables both XLA CPU and GPU JIT (default is enabled)."
+          "Disabled, models utilizing this feature will return bad Status "
           "on first compilation request."),
       tensorflow::Flag("enable_profiler", &options.enable_profiler,
                        "Enable profiler service."),
@@ -265,7 +265,7 @@ int main(int argc, char** argv) {
     std::cout << "unknown argument: " << argv[1] << "\n" << usage;
   }
 
-  if (!xla_cpu_compilation_enabled) {
+  if (!xla_compilation_enabled) {
     tensorflow::DisableXlaCompilation();
   }
 
